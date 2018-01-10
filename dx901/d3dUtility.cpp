@@ -121,7 +121,7 @@ namespace D3D
 			else
 			{
 				float currTime = (float)timeGetTime();
-				float timeDelta = (currTime - lastTime);
+				float timeDelta = (currTime - lastTime) * 0.001f;
 				ptr_display(timeDelta);
 				lastTime = currTime;
 			}

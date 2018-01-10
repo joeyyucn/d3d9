@@ -16,12 +16,17 @@ int g_windowHeight = 600;
 
 bool Display(float deltaTime)
 {
+	static float y = 0;
+	D3DXMATRIX yRot;
+	D3DXMatrixRotationY(&yRot, y);
+	y+=deltaTime;
+	//g_pDevice->SetTransform(D3DTS_WORLD, &yRot);
 	g_pDevice->Clear(0, 0, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, 0xFFFFFFFF, 1.0f, 0);
 	g_pDevice->BeginScene();
 	g_pDevice->SetStreamSource(NULL, g_pVertexBuffer, 0, sizeof(vertex));
 	g_pDevice->SetIndices(g_pIndexBuffer);
 	g_pDevice->SetFVF(vertex::FVF);
-	g_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
+	g_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 2);
 	g_pDevice->EndScene();
 	g_pDevice->Present(0, 0, 0, 0);
 	return true;
@@ -56,42 +61,43 @@ bool Setup()
 	DWORD* indices = NULL;
 	g_pIndexBuffer->Lock(0, 0, (void**)&indices, 0);
 	// front
-	indices[0] = 0; indices[1] = 1; indices[2] = 2;
-	indices[3] = 2; indices[4] = 3; indices[5] = 0;
+	indices[0] = 0; indices[1] = 2; indices[2] = 1;
+	indices[3] = 0; indices[4] = 2; indices[5] = 3;
 
 	// back
-	indices[6] = 4; indices[7] = 7; indices[8] = 6;
-	indices[9] = 6; indices[10] = 5; indices[11] = 4;
+	indices[6] = 4; indices[7] = 6; indices[8] = 5;
+	indices[9] = 4; indices[10] = 7; indices[11] = 6;
 
 	// top
 	indices[12] = 1; indices[13] = 5; indices[14] = 6;
-	indices[15] = 6; indices[16] = 2; indices[17] = 1;
+	indices[15] = 1; indices[16] = 6; indices[17] = 2;
 
 	// bottom
-	indices[18] = 0; indices[19] = 3; indices[20] = 7;
-	indices[21] = 7; indices[22] = 4; indices[23] = 0;
+	indices[18] = 4; indices[19] = 0; indices[20] = 3;
+	indices[21] = 4; indices[22] = 3; indices[23] = 7;
 
 	// left
-	indices[24] = 0; indices[25] = 1; indices[26] = 5;
-	indices[27] = 5; indices[28] = 4; indices[29] = 0;
+	indices[24] = 4; indices[25] = 5; indices[26] = 1;
+	indices[27] = 4; indices[28] = 1; indices[29] = 0;
 
 	// right
 	indices[30] = 3; indices[31] = 2; indices[32] = 6;
-	indices[33] = 6; indices[34] = 7; indices[35] = 3;
+	indices[33] = 3; indices[34] = 6; indices[35] = 7;
 	g_pIndexBuffer->Unlock();
 
 	D3DXVECTOR3 position(0.0f, 0.0f, -5.0f);
 	D3DXVECTOR3 target(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 up(0.0f, 1.0f, 1.0f);
+	D3DXVECTOR3 up(0.0f, 1.0f, 0.0f);
 	D3DXMATRIX v;
 	D3DXMatrixLookAtLH(&v, &position, &target, &up);
 	g_pDevice->SetTransform(D3DTS_VIEW, &v);
 
 	D3DXMATRIX proj;
-	D3DXMatrixPerspectiveFovLH(&proj, D3DX_PI*0.5F, (float)g_windowWidth/(float)g_windowHeight, 1.0F, 1000.0f);
+	D3DXMatrixPerspectiveFovLH(&proj, D3DX_PI*0.5F, (float)g_windowWidth/(float)g_windowHeight, 1.0f, 1000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &proj); 
 
 	g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	return true;
 }
 
