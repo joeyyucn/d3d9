@@ -14,19 +14,21 @@ IDirect3DIndexBuffer9* g_pIndexBuffer = NULL;
 int g_windowWidth = 800;
 int g_windowHeight = 600;
 
+/*
 bool Display(float deltaTime)
 {
 	static float y = 0;
 	D3DXMATRIX yRot;
 	D3DXMatrixRotationY(&yRot, y);
 	y+=deltaTime;
-	//g_pDevice->SetTransform(D3DTS_WORLD, &yRot);
+	g_pDevice->SetTransform(D3DTS_WORLD, &yRot);
 	g_pDevice->Clear(0, 0, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, 0xFFFFFFFF, 1.0f, 0);
 	g_pDevice->BeginScene();
-	g_pDevice->SetStreamSource(NULL, g_pVertexBuffer, 0, sizeof(vertex));
+	g_pDevice->SetStreamSource(NULL, g_pVertexBuffer, 0, sizeof(colorvertex));
 	g_pDevice->SetIndices(g_pIndexBuffer);
-	g_pDevice->SetFVF(vertex::FVF);
-	g_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 2);
+	g_pDevice->SetFVF(colorvertex::FVF);
+	g_pDevice->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
+	g_pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
 	g_pDevice->EndScene();
 	g_pDevice->Present(0, 0, 0, 0);
 	return true;
@@ -34,39 +36,39 @@ bool Display(float deltaTime)
 
 bool Setup()
 {
-	HRESULT hr = g_pDevice->CreateVertexBuffer(8*sizeof(vertex), D3DUSAGE_WRITEONLY, vertex::FVF, D3DPOOL_MANAGED, &g_pVertexBuffer, NULL);
+	HRESULT hr = g_pDevice->CreateVertexBuffer(8*sizeof(colorvertex), D3DUSAGE_WRITEONLY, colorvertex::FVF, D3DPOOL_MANAGED, &g_pVertexBuffer, NULL);
 	if(D3D_OK != hr)
 	{
 		return false;
 	}
 
-	hr = g_pDevice->CreateIndexBuffer(36*sizeof(DWORD), D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &g_pIndexBuffer, NULL);
+	hr = g_pDevice->CreateIndexBuffer(36*sizeof(DWORD), D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_MANAGED, &g_pIndexBuffer, NULL);
 	if(D3D_OK != hr)
 	{
 		return false;
 	}
 
-	vertex* vertices = NULL;
+	colorvertex* vertices = NULL;
 	g_pVertexBuffer->Lock(0, 0, (void **)&vertices, 0);
-	vertices[0] = vertex(-1.0f, -1.0f, -1.0f);
-	vertices[1] = vertex(-1.0f, 1.0f, -1.0f);
-	vertices[2] = vertex(1.0f, 1.0f, -1.0f);
-	vertices[3] = vertex(1.0f, -1.0f, -1.0f);
-	vertices[4] = vertex(-1.0f, -1.0f, 1.0f);
-	vertices[5] = vertex(-1.0f, 1.0f, 1.0f);
-	vertices[6] = vertex(1.0f, 1.0f, 1.0f);
-	vertices[7] = vertex(1.0f, -1.0f, 1.0f);
+	vertices[0] = colorvertex(-1.0f, -1.0f, -1.0f, RED);
+	vertices[1] = colorvertex(-1.0f, 1.0f, -1.0f, GREEN);
+	vertices[2] = colorvertex(1.0f, 1.0f, -1.0f, BLUE);
+	vertices[3] = colorvertex(1.0f, -1.0f, -1.0f, RED);
+	vertices[4] = colorvertex(-1.0f, -1.0f, 1.0f, GREEN);
+	vertices[5] = colorvertex(-1.0f, 1.0f, 1.0f, BLUE);
+	vertices[6] = colorvertex(1.0f, 1.0f, 1.0f, RED);
+	vertices[7] = colorvertex(1.0f, -1.0f, 1.0f, GREEN);
 	g_pVertexBuffer->Unlock();
 
 	DWORD* indices = NULL;
 	g_pIndexBuffer->Lock(0, 0, (void**)&indices, 0);
 	// front
-	indices[0] = 0; indices[1] = 2; indices[2] = 1;
+	indices[0] = 0; indices[1] = 1; indices[2] = 2;
 	indices[3] = 0; indices[4] = 2; indices[5] = 3;
 
 	// back
-	indices[6] = 4; indices[7] = 6; indices[8] = 5;
-	indices[9] = 4; indices[10] = 7; indices[11] = 6;
+	indices[6] = 7; indices[7] = 6; indices[8] = 5;
+	indices[9] = 5; indices[10] = 4; indices[11] = 7;
 
 	// top
 	indices[12] = 1; indices[13] = 5; indices[14] = 6;
@@ -96,8 +98,10 @@ bool Setup()
 	D3DXMatrixPerspectiveFovLH(&proj, D3DX_PI*0.5F, (float)g_windowWidth/(float)g_windowHeight, 1.0f, 1000.0f);
 	g_pDevice->SetTransform(D3DTS_PROJECTION, &proj); 
 
-	g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	//g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//g_pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+
 	return true;
 }
 
@@ -106,7 +110,25 @@ void CleanUp()
 	g_pVertexBuffer->Release();
 	g_pIndexBuffer->Release();
 }
+*/
 
+bool Display(float timeDelta)
+{
+	return true;
+}
+
+bool Setup()
+{
+	HRESULT hr = g_pDevice->CreateVertexBuffer(2*sizeof(normalvertex), D3DUSAGE_WRITEONLY, normalvertex::FVF, D3DPOOL_MANAGED, &g_pVertexBuffer, NULL);
+	if(FAILED(hr))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+void CleanUp();
 int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
 	if(!InitD3D(hinstance, g_windowWidth, g_windowHeight, true, D3DDEVTYPE_REF, &g_pDevice))

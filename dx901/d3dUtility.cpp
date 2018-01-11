@@ -2,6 +2,8 @@
 namespace D3D
 {
 	const DWORD vertex::FVF = D3DFVF_XYZ;
+	const DWORD colorvertex::FVF = D3DFVF_XYZ|D3DFVF_DIFFUSE;
+
 	bool InitD3D(HINSTANCE hInstance, int width, int height, bool windowed, D3DDEVTYPE deviceType, IDirect3DDevice9** device)
 	{
 		LPCWSTR className = L"D3DParentWindow"; 
@@ -64,7 +66,7 @@ namespace D3D
 		params.MultiSampleQuality = 0;
 		params.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		params.Windowed = windowed;
-		params.EnableAutoDepthStencil = TRUE;
+		params.EnableAutoDepthStencil = true;
 		params.AutoDepthStencilFormat = D3DFMT_D24S8;
 		params.Flags = 0;
 		params.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
