@@ -3,7 +3,8 @@ namespace D3D
 {
 	const DWORD vertex::FVF = D3DFVF_XYZ;
 	const DWORD colorvertex::FVF = D3DFVF_XYZ|D3DFVF_DIFFUSE;
-
+	const DWORD normalvertex::FVF = D3DFVF_XYZ|D3DFVF_NORMAL;
+	const DWORD normalTexVertex::FVF = D3DFVF_XYZ|D3DFVF_NORMAL|D3DFVF_TEX1;
 	bool InitD3D(HINSTANCE hInstance, int width, int height, bool windowed, D3DDEVTYPE deviceType, IDirect3DDevice9** device)
 	{
 		LPCWSTR className = L"D3DParentWindow"; 
@@ -130,5 +131,28 @@ namespace D3D
 		}
 
 		return msg.wParam;
+	}
+
+	D3DMATERIAL9 InitMaterial(D3DXCOLOR ambient, D3DXCOLOR diffuse, D3DXCOLOR specular, D3DXCOLOR emissive, float power)
+	{
+		D3DMATERIAL9 material;
+		material.Ambient = ambient;
+		material.Diffuse = diffuse;
+		material.Specular = specular;
+		material.Emissive = emissive;
+		material.Power = power;
+		return material;
+	}
+
+	D3DLIGHT9 InitDirectionLight(const D3DXCOLOR* color, const D3DVECTOR* direction)
+	{
+		D3DLIGHT9 light;
+		::ZeroMemory(&light, sizeof(D3DLIGHT9));
+		light.Type = D3DLIGHT_DIRECTIONAL;
+		light.Direction = *direction;
+		light.Ambient = *color * 0.0f;
+		light.Diffuse = *color;
+		light.Specular = *color * 0.8f;
+		return light;
 	}
 }

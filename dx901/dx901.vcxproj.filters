@@ -16,6 +16,9 @@
     <Filter Include="d3d">
       <UniqueIdentifier>{ebce55df-d952-41b8-8c69-098150340174}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Chapters">
+      <UniqueIdentifier>{9ff8ea42-858b-40f4-b387-098ed1260f44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -27,9 +30,27 @@
     <ClCompile Include="d3dUtility.cpp">
       <Filter>d3d</Filter>
     </ClCompile>
+    <ClCompile Include="chapter1.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="chapter2.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="chapter3.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="chapter_template.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="chapter4.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3dUtility.h">
+      <Filter>d3d</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
       <Filter>d3d</Filter>
     </ClInclude>
   </ItemGroup>
