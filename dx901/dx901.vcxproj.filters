@@ -45,6 +45,18 @@
     <ClCompile Include="chapter4.cpp">
       <Filter>Chapters</Filter>
     </ClCompile>
+    <ClCompile Include="chapter5.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="chapter6.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="chapter7.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
+    <ClCompile Include="chapter8.cpp">
+      <Filter>Chapters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3dUtility.h">

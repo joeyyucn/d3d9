@@ -1,0 +1,16 @@
+Attribute table
+-------------------
+Entry:0
+-------------------
+face count:2
+face start:0
+vertex start:6
+vertex count:0
+
+Entry:1
+-------------------
+face count:2
+face start:2
+vertex start:6
+vertex count:6
+

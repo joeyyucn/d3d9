@@ -105,14 +105,14 @@ bool Display( float timeDeta )
 
 	g_pDevice->Clear( 0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER, 0x0, 1, 0 );
 	g_pDevice->BeginScene();
-	g_pDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, true );
-	g_pDevice->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
+	//g_pDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, true );
+	//g_pDevice->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
 	g_pDevice->SetMaterial( &WHITEMATERIAL );
 	g_pDevice->SetStreamSource( 0, g_pVertexBuffer, 0, sizeof(normalTexVertex) );
 	g_pDevice->SetFVF( normalTexVertex::FVF );
 	g_pDevice->SetTexture( 0, g_pTexture );
 	g_pDevice->DrawPrimitive( D3DPT_TRIANGLELIST, 0, 2 ); 
-	g_pDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, false );
+	//g_pDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, false );
 	
 	
 	g_pDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, true );

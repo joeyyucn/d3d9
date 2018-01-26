@@ -5,6 +5,7 @@
 #include "common.h"
 #ifdef _USING_CHAPTER_TEMPLATE_
 #include "d3dUtility.h"
+using namespace D3D;
 
 bool Setup( int width, int height )
 {
